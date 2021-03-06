@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo -e "Please provide the scripts name: \c"
+
+read -r file
+sudo vi ./$file.sh
+
+# had to add the 'sudo tee -a' which is equivalent to >(overwrite)  the file
+echo '#!/bin/bash' | sudo tee -a ./$file.sh > /dev/null
+echo '#Purpose' >| sudo tee --a ./$file.sh
+echo '#Version' | sudo tee --a ./$file.sh
+echo '#Created Date: ' | sudo tee --a ./$file.sh
+echo '#Modified Date: ' | sudo tee --a ./$file.sh
+echo '#Author: Talwinder Singh' | sudo tee --a ./$file.sh
+echo '# START #' | sudo tee --a  ./$file.sh
+echo '# END '  | sudo tee --a  ./$file.sh
+
+
+
+
+
+
+
+
+
+

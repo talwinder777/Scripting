@@ -1,0 +1,425 @@
+start line ->  !/bin/bash
+
+# commnnt
+
+# use echo to print
+
+#chmod 7(owner- read write execute)5(group)5 "name of file" --------------- to make the file executable
+# 755:- convert each number to binary 3 digit like 111(7 -> r w exe)
+
+##################### Vim specific ####################################
+
+# how to copy
+ - go to visual mode, by pressing V
+ - select the line, then press and y to copy
+ - press P to paste
+
+# to get something as a value, u can grab it with $ sign
+
+# Delete all code in Vim with gg then dG
+
+# in order to see the all the shells in the system type cat /etc/shells. To check if some cammands run in particular shell then, do bin/shellname 
+#########################################################################
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$bash_script specific$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+----------------------------------------------
+
+variabale declaration
+	
+	a. The variable name starts with a letter or _ and then can also contain numbers
+	
+	b. The shell treats all variables as strings
+	
+	c. When declaring a variable you can't have whitespace on either side of the =
+	
+	
+	myName="talli"
+
+	
+declaring constants
+	
+	declare -r NUM1=5
+
+	num2=4
+	# $ used to get the values of the num1 and num2
+	num3=$((NUM1+num2))
+	#have copied these line, see the above ref for how to copy
+	num3=$((NUM1+num2))
+	num3=$((NUM1+num2))
+	num3=$((NUM1+num2))
+	
+
+	calculating the power like,  we can do echo $((5**2))
+	#shorthand operator are allowed( +=, ++, -- ) etc
+	
+executing code by using python
+
+	num7=1.2
+	num8=3.4
+	#in order to run the below line u need to have python installed
+	num9=$(python -c "print $num7+$num8")
+
+# You can print over multiple lines with a Here Script
+# cat prints a file or any string past to it
+
+	cat << END
+	This text
+	prints on
+	many lines
+	END
+	 	
+-----------------------------------------------------------------------
+
+			FUNCTIONS
+
+	getDate() { ----------- declaration
+ 		
+ 		# Get current date and time
+ 		date
+ 		
+ 		# Return returns an exit status number between 0 - 255
+ 		return
+ 		}
+	getDate --------- calling
+
+
+Global and local varibales concept is same as in any other language
+
+#important
+# A function that receives 2 values and prints a sum
+ 	getSum() {
+ 	
+ 		# Attributes are retrieved by referring to $1, $2, etc.
+ 		local num3=$1
+ 		local num4=$2
+ 		
+ 		# Sum values
+ 		local sum=$((num3+num4))
+ 		
+ 		# Pass values back with echo
+ 		echo $sum
+ 	}
+ 	
+ 	num1=5
+ 	num2=6
+ 	
+ 	# You pass atributes by separating them with a space
+ 	# Surround function call with $() to get the return value
+ 	sum=$(getSum num1 num2)
+ 	echo "The sum is $sum"
+
+---------------------------------------------------------------------
+		
+			CONDITIONALS/INPUTS
+
+# READING INFO FROM USERS IS VERY SIMILAR TO WHAT CIN IN THE C LANGUAG. EG IS SHOWN BELOW
+	# p option says we gonna promt with a string
+	read -p "What is your name? " name
+  	echo "Hello $name"
+  
+  	read -p "How old are you? " age
+
+
+
+# You place your condition with in []
+  	# Include a space after [ and before ]
+  	# Integer Comparisons: eq, ne, le, lt, ge, gt
+  	if [ $age -ge 16 ]
+  	then
+  		echo "You can drive"
+  	
+  	# Check another condition
+  	elif [ $age -eq 15 ]
+  	then
+  		echo "You can drive next year"
+  		
+  	# Executed by default
+ 	else
+ 	  echo "You can't drive"
+ 	  
+ 	# Closes the if statement
+ 	fi
+
+	------------------------------
+	if (( ((num % 2)) == 0 )); then
+ 		echo " It is even"
+ 	fi
+ 	
+ 	# You can use logical operators like &&, || and !
+ 	if (( ((num > 0)) && ((num < 11)) )); then
+ 		echo "$num is between 1 and 10"
+ 	fi
+
+-------------------------------------------------------------------------------------------
+			
+			MAKE FILES AND DIRECTORIES FROM SCRIPT ITSELF
+
+	#first create a file and then open it in the vim
+	touch samp_file && vim samp_file
+
+	#checking if the directory exist or make the directory if not
+	[ -d samp_dir] || mkdir samp_dir
+
+	
+---------------------------------------------------------------------------------------------
+			OPERATIONS WITH STRINGS
+		
+	#Testing Strings
+	
+	#!/bin/bash
+	str1=""
+	str2="Sad"
+	str3="Happy"
+	
+	# Test if a string is null
+	if [ "$str1" ]; then
+		echo "$str1 is not null"
+	fi
+	
+	if [ -z "$str1" ]; then
+		echo "str1 has no value"
+	fi
+	
+	# Check for equality
+	if [ "$str2" == "$str3" ]; then
+		echo "$str2 equals $str3"
+	elif [ "$str2" != "$str3" ]; then
+		echo "$str2 is not equal to $str3"
+	fi
+	
+	if [ "$str2" > "$str3" ]; then
+		echo "$str2 is greater then $str3"
+	elif [ "$str2" < "$str3" ]; then
+		echo "$str2 is less then $str3"
+	fi
+
+	# Check the file test_file1 and test_file2
+	file1="./test_file1"
+	file2="./test_file2"
+	
+	if [ -e "$file1" ]; then
+		echo "$file1 exists"
+		
+		if [ -f "$file1" ]; then
+			echo "$file1 is a normal file"
+		fi
+		
+		if [ -r "$file1" ]; then
+			echo "$file1 is readable"
+		fi
+		
+		if [ -w "$file1" ]; then
+			echo "$file1 is writable"
+		fi
+		
+		if [ -x "$file1" ]; then
+			echo "$file1 is executable"
+		fi
+		
+		if [ -d "$file1" ]; then
+			echo "$file1 is a directory"
+		fi
+		
+		if [ -L "$file1" ]; then
+			echo "$file1 is a symbolic link"
+		fi
+		
+		if [ -p "$file1" ]; then
+			echo "$file1 is a named pipe"
+		fi
+		
+		if [ -S "$file1" ]; then
+			echo "$file1 is a network socket"
+		fi
+		
+		if [ -G "$file1" ]; then
+			echo "$file1 is owned by the group"
+		fi
+		
+		if [ -O "$file1" ]; then
+			echo "$file1 is owned by the userid"
+		fi
+		
+	fi
+
+	
+	4. With extended test [[ ]] you can use Regular Expressions
+	#!/bin/bash
+	
+	read -p "Validate Date : " date
+	
+	pat="^[0-9]{8}$"
+	
+	if [[ $date =~ $pat ]]; then
+		echo "$date is valid"
+	else
+		echo "$date is not valid"
+	fi
+	
+	
+
+	5. # Read multiple values
+	#!/bin/bash
+	
+	read -p "Enter 2 Numbers to Sum : " num1 num2
+	
+	sum=$((num1+num2))
+	
+	echo "$num1 + $num2 = $sum"
+	
+	# Hide the input with the s code
+	read -sp "Enter the Secret Code" secret
+	
+	if [ "$secret" == "password" ]; then
+		echo "Enter"
+	else
+		echo "Wrong Password"
+	fi
+
+
+	6. You can set what separates the values with IFS
+	#!/bin/bash
+	
+	# Store the original value of IFS
+	OIFS="$IFS"
+	
+	# Set what separates the input values
+	IFS=","
+	
+	read -p "Enter 2 numbers to add separated by a comma" num1 num2
+	
+	# Use the parameter expansion ${} to substitute any whitespace
+	# with nothing
+	num1=${num1//[[:blank:]]/}
+	num2=${num2//[[:blank:]]/}
+ 
+	sum=$((num1+num2))
+	
+	echo "$num1 + $num2 = $sum"
+	
+	# Reset IFS to the original value
+	IFS="$OIFS"
+
+
+	# Parameter expansion allows you to do this
+	name="Derek"
+	echo "${name}'s Toy"
+	
+	# The search and replace allows this
+	samp_string="The dog climbed the tree"
+	echo "${samp_string//dog/cat}"
+	
+	# You can assign a default value if it doesn't exist
+	echo "I am ${name:-Derek}"
+	
+	# This uses the default if it doesn't exist and assigns the value
+	# to the variable
+	echo "I am ${name:=Derek}
+
+
+	7. Use case to when it makes more sense then if
+	#!/bin/bash
+	read -p "How old are you : " age
+	# Check the value of age
+	
+	case $age in
+	# Match numbers 0 - 4
+	[0-4]) 
+		echo "To young for school"
+		;; # Stop checking further
+		
+	# Match only 5
+	5)
+		echo "Go to kindergarten"
+		;;
+		
+	# Check 6 - 18, dont know if 10-18 can be used straight away
+	[6-9]|1[0-8])
+		grade=$((age-5))
+		echo "Go to grade $grade"
+		;;
+		
+	# Default action
+	*)
+		echo "You are to old for school"
+		;;
+	esac # End case
+
+
+	8. Ternary Operator performs different actions based on a condition
+	#!/bin/bash
+	can_vote=0
+	age=18
+	
+	((age>=18?(can_vote=1):(can_vote=0)))
+	echo "Can Vote : $can_vote"
+
+
+------------------------------------------------------------------------------------------------
+				
+				PARAMETER EXPANSIONS AND STRINGS
+
+	1. Strings
+	#!/bin/bash
+	
+	rand_str="A random string"
+	
+	# Get string length
+	echo "String Length : ${#rand_str}"
+	
+	# Get string slice starting at index (0 index)
+	echo "${rand_str:2}"
+	
+	# Get string with starting and ending index
+	echo "${rand_str:2:7}"
+	
+	# Return whats left after A
+	echo "${rand_str#*A }"
+
+------------------------------------------------------------------------------------------------
+
+				LOOPING
+
+	1. While Loop
+	#!/bin/bash
+	
+	num=1
+	
+	while [ $num -le 10 ]; do
+		echo $num
+		num=$((num + 1))
+	done
+	
+	2. Continue and Break
+	#!/bin/bash
+	
+	num=1
+	
+	while [ $num -le 20 ]; do
+	
+		# Don't print evens
+		if (( ((num % 2)) == 0 )); then
+ 			num=$((num + 1))
+ 			continue
+ 		fi
+ 		
+ 		# Jump out of the loop with break
+ 		if ((num >= 15)); then
+ 			break
+ 		fi
+ 		
+		echo $num
+		num=$((num + 1))
+	done
+	
+	3. Until loops until the loop is true
+	#!/bin/bash
+	
+	num=1
+	
+	until [ $num -gt 10 ]; do
+		echo $num
+		num=$((num + 1))
+	done
